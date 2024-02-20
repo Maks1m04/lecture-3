@@ -1,0 +1,265 @@
+Recursion is a problem-solving technique in programming. In this article, you will learn how to use recursive functions in JavaScript.
+
+What is a Recursive Function?
+A recursive function is a function that calls itself somewhere within the body of the function. Below is a basic example of a recursive function.
+
+function recursiveFunc() {
+  // some code here... 
+  recursiveFunc()
+}
+As you can see, the recursiveFunc function calls itself within the body of the function. It will repeat calling itself until the desired output is achieved.
+
+So how do you tell the function when to stop calling itself? You do that using a base condition.
+
+The Three Parts of a Recursive Function
+Every time you write a recursive function, three elements must be present. They are:
+
+The function definition.
+The base condition.
+The recursive call.
+When these three elements are missing, your recursive function won't work as you expect. Let's take a closer look at each one.
+
+How to define a recursive function
+You define a recursive function the same way you define regular JavaScript functions.
+
+function recursiveFunc() {
+  // some code here...
+} 
+What differentiates recursive functions from regular JavaScript functions are the base condition and the recursive call.
+
+What is a base condition?
+When using a recursive function, the base condition is what lets the function know when to stop calling itself. Once the base condition is met, the recursion ends.
+
+function recursiveFunc() {
+  if(base condition) {
+    // stops recursion if condition is met
+  }
+  // else recursion continues
+  recurse();
+}
+Why do you need a base condition?
+Without the base condition, you will run into infinite recursion. A situation where your function continues calling itself without stopping, like this:
+
+function doSomething(action) {
+  console.log(`I am ${action}.`)
+  doSomething(action)
+}
+
+doSomething("running")
+Also, without a base condition, your function exceeds the maximum call stack. You will run into the error shown below.
+
+benjamin-semah-max-callstack
+Maximum call stack exceeded when there's no base condition
+The Call Stack keeps track of what functions are currently running and the functions that are within them.
+
+The call stack has a limit. And since a recursive function without a base condition will run infinitely, it exceeds the call stack's limit.
+
+The base condition provides a way to break out when the function gets the desired output.
+
+Example of recursive function
+Let's see a simple example of a recursive function.
+
+function doSomething(n) {
+  if(n === 0) {
+    console.log("TASK COMPLETED!")
+    return
+  }
+  console.log("I'm doing something.")
+  doSomething(n - 1)
+}
+doSomething(3)
+Here is the result when you pass the number 3 to the doSomething function.
+
+benjamin-semah-task-completed
+The base condition for the doSomething function is n === 0. Anytime the function is called, it first checks if the base condition is met.
+
+If yes, it prints TASK COMPLETED!. If not, it continues with the rest of the code in the function. In this case, it will print I'm doing something. and then call the function again.
+
+The recursive call
+The recursive call is what handles the function calling itself again. In the doSomething function, the recursive call is the line below.
+
+doSomething(n-1)
+Note what happens when the function calls itself. A new parameter  n - 1 is passed to the function. On every iteration of a recursive call, the parameter will differ from that of the previous call.
+
+The function will keep calling itself until the new parameter satisfies the base condition.
+
+Recursion vs Loops
+Recursion and loops work in similar ways. Every recursive function you write has an alternative solution with a loop.
+
+For example, you can create a function to find the factorial of a given number using both recursion and loops.
+
+How to find the factorial with a loop:
+function findFactorial(num) {
+  let factorial = 1
+  for (let i = num; i > 0; i--) {
+    factorial *= i
+  }
+  return factorial
+}
+
+findFactorial(5) // 120
+To find the factorial using a loop, you first initialize a variable factorial with a value of 1.
+
+Then you initiate the loop with the given number num. The loop will continue running until i > 0.
+
+For each iteration, you multiply the current value of factorial by i. And you decrease the value of i by 1 until i is not greater than zero.
+
+Finally, you return the value of the factorial when the loop finishes running.
+
+How to find the factorial with recursion:
+You can create the same solution with a recursive function.
+
+function findFactorial(num) {
+  if (num === 0) return 1
+  let factorial = num * findFactorial(num - 1)
+  return factorial;
+}
+
+findFactorial(5) // 120
+First, you need a base condition num === 0.
+
+You also need the recursive call findFactorial(num - 1) to ensure the number keeps reducing at each call when you pass a new parameter of n-1.
+
+Then you multiply the result with the previous number num * findFactorial(num - 1) until the base condition is met.
+
+So which is better – recursion or loops?
+So which one is better? There's no right or wrong answer to that. It's up to you to decide. Depending on the problem you're solving, you may choose one over the other.
+
+Optimize for the readability of your code. Sometimes, like in the factorial example, recursion leads to shorter and more readable code.
+
+But recursive functions are not always intuitive. If that's the case, you should stick to loops.
+
+Conclusion
+In this article, you've learned what recursion is and how to create recursive functions in JavaScript.
+
+Reading and writing recursive functions might be confusing at first. But remember, what makes recursive functions different from regular functions are the base condition and the recursive call.
+
+
+
+JavaScript closure is a feature that allows inner functions to access the outer scope of a function. Closure helps in binding a function to its outer boundary and is created automatically whenever a function is created. A block is also treated as a scope since ES6. Since JavaScript is event-driven so closures are useful as it helps to maintain the state between events.
+
+Prerequisite:
+Variable Scope in JavaScript 
+
+Lexical Scoping:
+A function scope’s ability to access variables from the parent scope is known as lexical scope. We refer to the parent function’s lexical binding of the child function as “lexically binding.”
+
+Let’s see and understand closure through an example. 
+
+Example 1: This example shows the basic use of closure.
+
+   
+function foo() {
+    let b = 1;
+    function inner() {
+        return b;
+    }
+    return inner;
+}
+let get_func_inner = foo();
+ 
+console.log(get_func_inner());
+console.log(get_func_inner());
+console.log(get_func_inner());
+Output:
+
+We can access the variable b which is defined in the function foo() through function inner() as the later preserves the scope chain of the enclosing function at the time of execution of the enclosing function i.e. the inner function knows the value of b through its scope chain. 
+This is closure in action that is inner function can have access to the outer function variables as well as all the global variables.
+
+Closure in JavaScript
+Closure in JavaScript
+
+Definition of Closure: 
+In programming languages, closures (also lexical closures or function closures) are techniques for implementing lexically scoped name binding in languages with first-class functions. Operationally, a closure is a record storing a function[a] together with an environment:[1] a mapping associating each free variable of the function (variables that are used locally, but defined in an enclosing scope) with the value or reference to which the name was bound when the closure was created.[b] 
+-Wikipedia
+
+ or 
+
+In other words, closure is created when a child function keep the environment of the parent scope even after the parent function has already executed 
+
+Note: Closure is the concept of function + lexical environment in which function it was created. so every function declared within another function then it has access to the scope chain of the outer function and the variables created within the scope of the outer function will not get destroyed.
+
+Now let’s look at another example. 
+
+Example 2: This example shows the basic use of closure.
+
+ 
+function foo(outer_arg) {
+ 
+    function inner(inner_arg) {
+        return outer_arg + inner_arg;
+    }
+    return inner;
+}
+let get_func_inner = foo(5);
+ 
+console.log(get_func_inner(4));
+console.log(get_func_inner(3));
+Output: In the above example we used a parameter function rather than a default one. Not even when we are done with the execution of foo(5) we can access the outer_arg variable from the inner function. And on the execution of the inner function produce the summation of outer_arg and inner_arg as desired. 
+
+9
+8
+Now let’s see an example of closure within a loop. 
+In this example, we would store an anonymous function at every index of an array. 
+
+Example 3: This example shows the basic use of closure.
+
+ 
+// Outer function
+function outer() {
+    let arr = [];
+    let i;
+    for (i = 0; i < 4; i++) {
+        // storing anonymous function
+        arr[i] = function () { return i; }
+    }
+ 
+    // returning the array.
+    return arr;
+}
+ 
+let get_arr = outer();
+ 
+console.log(get_arr[0]());
+console.log(get_arr[1]());
+console.log(get_arr[2]());
+console.log(get_arr[3]());
+Output:
+
+Did you guess the right answer? In the above code, we have created four closures that point to the variable i which is the local variable to the function outer. Closure doesn’t remember the value of the variable it only points to the variable or stores the reference of the variable and hence, returns the current value. In the above code when we try to update the value it gets reflected all because the closure stores the reference. 
+
+4
+4
+4
+4
+Let’s see the correct way to write the above code so as to get different values of i at different indexes. 
+
+Example 4: This example shows the basic use of closure
+
+   
+// Outer function
+function outer() {
+    function create_Closure(val) {
+        return function () {
+            return val;
+        }
+    }
+    let arr = [];
+    let i;
+    for (i = 0; i < 4; i++) {
+        arr[i] = create_Closure(i);
+    }
+    return arr;
+}
+let get_arr = outer();
+console.log(get_arr[0]());
+console.log(get_arr[1]());
+console.log(get_arr[2]());
+console.log(get_arr[3]());
+Output: In the above code we are updating the argument of the function create_Closure with every call. Hence, we get different values of i at different indexes.
+
+0
+1
+2
+3
+Note: It may be slightly difficult to get the concept of closure at once but try experimenting with closure in different scenarios like for creating getter/setter, callbacks, and so on. 
